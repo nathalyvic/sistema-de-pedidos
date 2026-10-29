@@ -1,0 +1,13 @@
+# Arquivo de configuração. O Spring lê isto quando a aplicação liga.
+
+spring:   # spring: tudo abaixo daqui é configuração do Spring.
+
+  datasource: # datasource (fonte de dados): diz qual banco de dados a aplicação vai usar.
+
+    url: jdbc:h2:mem:pedidos
+
+      # url: o endereço do banco. Cada parte quer dizer:
+      # jdbc    = jeito padrão do Java de conversar com um banco
+      # h2      = o banco usado: H2, que vem junto com o projeto
+      # mem     = guarda os dados na memória (somem quando a aplicação para)
+      # pedidos = o nome do banco
