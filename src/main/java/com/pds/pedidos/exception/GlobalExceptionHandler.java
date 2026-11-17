@@ -1,5 +1,6 @@
 package com.pds.pedidos.exception;                                          // pasta exception (tratamento de erros)
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,5 +13,11 @@ public class GlobalExceptionHandler {                                       // t
     @ResponseStatus(HttpStatus.NOT_FOUND)                                   // responde com o código 404, que quer dizer "não encontrado"
     public ErroDTO tratarNaoEncontrado(RecursoNaoEncontradoException erro) { // recebe o erro que foi disparado
         return new ErroDTO(erro.getMessage());                              // devolve a mensagem do erro, ex.: "Cliente não encontrado: 99"
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)                // este método trata o erro do banco "registro em uso" (ex.: apagar um produto que está num pedido)
+    @ResponseStatus(HttpStatus.CONFLICT)                                    // responde com o código 409, que quer dizer "conflito"
+    public ErroDTO tratarRegistroEmUso(DataIntegrityViolationException erro) { // recebe o erro que o banco disparou
+        return new ErroDTO("Não é possível concluir: o registro está sendo usado em um pedido."); // mensagem clara no lugar do erro 500
     }
 }
